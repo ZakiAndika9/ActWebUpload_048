@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Unggah File Sederhana</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 30px; }
+        .form-container { background: #f9f9f9; padding: 20px; border: 1px solid #ddd; display: inline-block; }
+        
+        /* Styling untuk area preview */
+        .preview-container { margin-top: 15px; display: none; }
+        .preview-container img { max-width: 200px; max-height: 200px; border: 2px solid #ddd; padding: 5px; border-radius: 5px; object-fit: cover; }
+    </style>
+</head>
+<body>
+
+<h2>Unggah File</h2>
+<div class="form-container">
+    <form action="upload.php" method="post" enctype="multipart/form-data">
+        Pilih file untuk diunggah:
+        <input type="file" name="fileToUpload" id="fileInput" accept="image/*" required>
+        <br><br>
+        
+        <div class="preview-container" id="previewBox">
+            <p style="margin: 0 0 5px 0; font-size: 14px; color: #555;"><b>Preview :</b></p>
+            <img id="imagePreview" src="" alt="Pratinjau Gambar">
+            <br><br>
+        </div>
+
+        <input type="submit" value="Unggah File" name="submit">
+    </form>
+</div>
+
+<script>
+    const fileInput = document.getElementById('fileInput');
+    const previewBox = document.getElementById('previewBox');
+    const imagePreview = document.getElementById('imagePreview');
+
+    fileInput.addEventListener('change', function() {
+        const file = this.files[0];
+
+        if (file) {
+            const reader = new FileReader();
+
+            // Ketika file selesai dibaca oleh browser
+            reader.addEventListener('load', function() {
+                imagePreview.setAttribute('src', this.result);
+                previewBox.style.display = 'block'; // Tampilkan container preview
+            });
+
+            reader.readAsDataURL(file);
+        } else {
+            // Jika batal memilih file, sembunyikan kembali preview-nya
+            previewBox.style.display = 'none';
+            imagePreview.setAttribute('src', '');
+        }
+    });
+</script>
+
+</body>
+</html>
